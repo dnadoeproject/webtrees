@@ -455,6 +455,21 @@ class WebRoutes
                 $router->post(UserPageDefaultUpdate::class, '/user-page-default-update');
             });
 
+            // Admin routes.
+            $router->attach('', '/tree/{tree}', static function (Map $router): void {
+                $router->extras([
+                    'middleware' => [
+                        AuthAdministrator::class,
+                    ],
+                ]);
+
+                $router->get(ExportGedcomPage::class, '/export');
+                $router->post(ExportGedcomClient::class, '/export-client');
+                $router->post(ExportGedcomServer::class, '/export-server');
+                $router->get(ImportGedcomPage::class, '/import');
+                $router->post(ImportGedcomAction::class, '/import');
+            });
+
             // Manager routes (multiple trees).
             $router->attach('', '/admin', static function (Map $router): void {
                 $router->extras([
@@ -488,11 +503,6 @@ class WebRoutes
                 $router->get(DataFixData::class, '/data-fix/{data_fix}/data');
                 $router->get(DataFixPreview::class, '/data-fix/{data_fix}/preview');
                 $router->get(FindDuplicateRecords::class, '/duplicates');
-                $router->get(ExportGedcomPage::class, '/export');
-                $router->post(ExportGedcomClient::class, '/export-client');
-                $router->post(ExportGedcomServer::class, '/export-server');
-                $router->get(ImportGedcomPage::class, '/import');
-                $router->post(ImportGedcomAction::class, '/import');
                 $router->get(MergeRecordsPage::class, '/merge-step1');
                 $router->post(MergeRecordsAction::class, '/merge-step1');
                 $router->get(MergeFactsPage::class, '/merge-step2');
