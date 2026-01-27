@@ -269,29 +269,31 @@ use Illuminate\Support\Collection;
                                     </li>
                                 </ul>
                             </div>
-                            <div class="col-sm-6 col-md-3">
-                                <h3>
-                                    <?= I18N::translate('GEDCOM file') ?>
-                                </h3>
-                                <ul class="fa-ul mx-0">
-                                    <!-- DOWNLOAD/Export -->
-                                    <li>
-                                        <span class="fa-li"><?= view('icons/download') ?></span>
-                                        <a href="<?= e(route(ExportGedcomPage::class, ['tree' => $managed_tree->name()])) ?>">
-                                            <?= I18N::translate('Export') ?>
-                                            <span class="visually-hidden"><?= e($managed_tree->title()) ?></span>
-                                        </a>
-                                    </li>
-                                    <!-- UPLOAD/IMPORT -->
-                                    <li>
-                                        <span class="fa-li"><?= view('icons/upload') ?></span>
-                                        <a href="<?= e(route(ImportGedcomPage::class, ['tree' => $managed_tree->name()])) ?>">
-                                            <?= I18N::translate('Import') ?>
-                                            <span class="visually-hidden"><?= e($managed_tree->title()) ?></span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+                            <?php if (Auth::isAdmin()) : ?>
+                                <div class="col-sm-6 col-md-3">
+                                    <h3>
+                                        <?= I18N::translate('GEDCOM file') ?>
+                                    </h3>
+                                    <ul class="fa-ul mx-0">
+                                        <!-- DOWNLOAD/Export -->
+                                        <li>
+                                            <span class="fa-li"><?= view('icons/download') ?></span>
+                                            <a href="<?= e(route(ExportGedcomPage::class, ['tree' => $managed_tree->name()])) ?>">
+                                                <?= I18N::translate('Export') ?>
+                                                <span class="visually-hidden"><?= e($managed_tree->title()) ?></span>
+                                            </a>
+                                        </li>
+                                        <!-- UPLOAD/IMPORT -->
+                                        <li>
+                                            <span class="fa-li"><?= view('icons/upload') ?></span>
+                                            <a href="<?= e(route(ImportGedcomPage::class, ['tree' => $managed_tree->name()])) ?>">
+                                                <?= I18N::translate('Import') ?>
+                                                <span class="visually-hidden"><?= e($managed_tree->title()) ?></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            <?php endif ?>
                         </div>
                     </div>
                 </div>
