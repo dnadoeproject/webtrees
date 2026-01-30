@@ -470,17 +470,6 @@ class WebRoutes
                 $router->post(ImportGedcomAction::class, '/import');
             });
 
-            // Manager routes (multiple trees).
-            $router->attach('', '/admin', static function (Map $router): void {
-                $router->extras([
-                    'middleware' => [
-                        AuthManager::class,
-                    ],
-                ]);
-
-                $router->get(ManageTrees::class, '/trees/manage/{tree}');
-            });
-
             // Manager routes.
             $router->attach('', '/tree/{tree}', static function (Map $router): void {
                 $router->extras([
@@ -502,11 +491,6 @@ class WebRoutes
                 $router->post(DataFixUpdateAll::class, '/data-fix/{data_fix}/update-all');
                 $router->get(DataFixData::class, '/data-fix/{data_fix}/data');
                 $router->get(DataFixPreview::class, '/data-fix/{data_fix}/preview');
-                $router->get(FindDuplicateRecords::class, '/duplicates');
-                $router->get(MergeRecordsPage::class, '/merge-step1');
-                $router->post(MergeRecordsAction::class, '/merge-step1');
-                $router->get(MergeFactsPage::class, '/merge-step2');
-                $router->post(MergeFactsAction::class, '/merge-step2');
                 $router->get(TreePreferencesPage::class, '/preferences');
                 $router->post(TreePreferencesAction::class, '/preferences');
                 $router->get(RenumberTreePage::class, '/renumber');
@@ -536,6 +520,17 @@ class WebRoutes
                 $router->post(PendingChangesRejectTree::class, '/reject');
                 $router->post(PendingChangesRejectRecord::class, '/reject/{xref}');
                 $router->post(PendingChangesRejectChange::class, '/reject/{xref}/{change}');
+            });
+
+            // Editor routes (multiple trees).
+            $router->attach('', '/admin', static function (Map $router): void {
+                $router->extras([
+                    'middleware' => [
+                        AuthEditor::class,
+                    ],
+                ]);
+
+                $router->get(ManageTrees::class, '/trees/manage/{tree}');
             });
 
             // Editor routes.
@@ -618,6 +613,11 @@ class WebRoutes
                 $router->post(LinkChildToFamilyAction::class, '/link-child-to-family/{xref}');
                 $router->get(LinkSpouseToIndividualPage::class, '/link-spouse-to-individual/{xref}');
                 $router->post(LinkSpouseToIndividualAction::class, '/link-spouse-to-individual/{xref}');
+                $router->get(FindDuplicateRecords::class, '/duplicates');
+                $router->get(MergeRecordsPage::class, '/merge-step1');
+                $router->post(MergeRecordsAction::class, '/merge-step1');
+                $router->get(MergeFactsPage::class, '/merge-step2');
+                $router->post(MergeFactsAction::class, '/merge-step2');
             });
 
             // User routes with a tree.
