@@ -219,7 +219,7 @@ trait ModuleThemeTrait
             return new Menu(I18N::translate('Control panel'), route(ControlPanel::class), 'menu-admin');
         }
 
-        if (Auth::isManager($tree)) {
+        if (Auth::isEditor($tree)) {
             return new Menu(I18N::translate('Control panel'), route(ManageTrees::class, ['tree' => $tree->name()]), 'menu-admin');
         }
 
