@@ -201,7 +201,7 @@ class TreeService
         );
 
         // Gedcom and privacy settings
-        $tree->setPreference('REQUIRE_AUTHENTICATION', '');
+        $tree->setPreference('REQUIRE_AUTHENTICATION', '1');
         $tree->setPreference('CONTACT_USER_ID', (string) Auth::id());
         $tree->setPreference('WEBMASTER_USER_ID', (string) Auth::id());
         $tree->setPreference('LANGUAGE', I18N::languageTag()); // Default to the current admin’s language
