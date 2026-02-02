@@ -97,7 +97,7 @@ use Illuminate\Support\Collection;
                                         </a>
                                     </li>
                                 </ul>
-                                <?php if (Auth::isManager($managed_tree)) : ?>
+                                <?php if (Auth::isAdmin()) : ?>
                                 <ul class="fa-ul mx-0">
                                     <!-- PREFERENCES -->
                                     <li>
@@ -148,7 +148,8 @@ use Illuminate\Support\Collection;
                                         </li>
                                     <?php endif ?>
                                 </ul>
-
+                                <?php endif ?>
+                                <?php if (Auth::isManager($managed_tree)) : ?>
                                 <ul class="fa-ul mx-0">
                                     <!-- DATA FIXES -->
                                     <li>

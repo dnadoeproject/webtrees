@@ -463,6 +463,10 @@ class WebRoutes
                     ],
                 ]);
 
+                $router->get(TreePreferencesPage::class, '/preferences');
+                $router->post(TreePreferencesAction::class, '/preferences');
+                $router->get(TreePrivacyPage::class, '/privacy');
+                $router->post(TreePrivacyAction::class, '/privacy');
                 $router->get(ExportGedcomPage::class, '/export');
                 $router->post(ExportGedcomClient::class, '/export-client');
                 $router->post(ExportGedcomServer::class, '/export-server');
@@ -491,8 +495,6 @@ class WebRoutes
                 $router->post(DataFixUpdateAll::class, '/data-fix/{data_fix}/update-all');
                 $router->get(DataFixData::class, '/data-fix/{data_fix}/data');
                 $router->get(DataFixPreview::class, '/data-fix/{data_fix}/preview');
-                $router->get(TreePreferencesPage::class, '/preferences');
-                $router->post(TreePreferencesAction::class, '/preferences');
                 $router->get(RenumberTreePage::class, '/renumber');
                 $router->post(RenumberTreeAction::class, '/renumber');
                 $router->get(TreePageEdit::class, '/tree-page-edit');
@@ -500,8 +502,6 @@ class WebRoutes
                 $router->post(TreePageUpdate::class, '/tree-page-update');
                 $router->get(TreePageBlockEdit::class, '/tree-page-block-edit/{block_id}');
                 $router->post(TreePageBlockUpdate::class, '/tree-page-block-update/{block_id}');
-                $router->get(TreePrivacyPage::class, '/privacy');
-                $router->post(TreePrivacyAction::class, '/privacy');
                 $router->get(UnconnectedPage::class, '/unconnected');
                 $router->post(UnconnectedAction::class, '/unconnected');
             });
