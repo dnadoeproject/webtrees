@@ -26,6 +26,14 @@ use Fisharebest\Webtrees\DB;
 use Fisharebest\Webtrees\GedcomFilters\GedcomEncodingFilter;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Registry;
+use Fisharebest\Webtrees\Services\ModuleService;
+use Fisharebest\Webtrees\Module\ModuleBlockInterface;
+use Fisharebest\Webtrees\Module\ModuleMenuInterface;
+use Fisharebest\Webtrees\Module\ModuleChartInterface;
+use Fisharebest\Webtrees\Module\ModuleListInterface;
+use Fisharebest\Webtrees\Module\ModuleReportInterface;
+use Fisharebest\Webtrees\Module\ModuleTabInterface;
+use Fisharebest\Webtrees\Module\ModuleSidebarInterface;
 use Fisharebest\Webtrees\Site;
 use Fisharebest\Webtrees\Tree;
 use Illuminate\Database\Query\Builder;
@@ -195,6 +203,26 @@ class TreeService
         $note = I18N::translate('Edit this individual and replace their details with your own.');
         $indi = "0 @X1@ INDI\n1 NAME " . $name . "\n1 SEX M\n1 BIRT\n2 DATE 01 JAN 1850\n2 NOTE " . $note;
         $this->gedcom_import_service->importRecord($indi, $tree, true);
+
+        // Modules: Access levels
+        $access_level = 1; // Default to "Members"
+        $module_service = Registry::container()->get(ModuleService::class);
+        $interfaces = [ModuleBlockInterface::class, ModuleMenuInterface::class, ModuleChartInterface::class, ModuleListInterface::class, ModuleReportInterface::class, ModuleTabInterface::class, ModuleSidebarInterface::class];
+        foreach ($interfaces as $interface) {
+            $modules = $module_service->findByInterface($interface);
+            foreach ($modules as $module) {
+                if ($module->name() === 'login_block') {
+                    continue;
+                }
+
+                DB::table('module_privacy')->insert([
+                    'module_name' => $module->name(),
+                    'gedcom_id'   => $tree_id,
+                    'interface'   => $interface,
+                    'access_level' => $access_level,
+                ]);
+            }
+        }
 
         return $tree;
     }
