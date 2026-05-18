@@ -188,9 +188,9 @@ class TreeService
         );
 
         // Gedcom and privacy settings
-        $tree->setPreference('REQUIRE_AUTHENTICATION', '1');
-        $tree->setPreference('CONTACT_USER_ID', (string) Auth::id());
-        $tree->setPreference('WEBMASTER_USER_ID', (string) Auth::id());
+        DB::table('gedcom')->update(['private' => 1]);
+        DB::table('gedcom')->update(['contact_user_id' => Auth::id()]);
+        DB::table('gedcom')->update(['support_user_id' => Auth::id()]);
         $tree->setPreference('LANGUAGE', I18N::languageTag()); // Default to the current admin’s language
         $tree->setPreference('SURNAME_TRADITION', self::DEFAULT_SURNAME_TRADITIONS[I18N::languageTag()] ?? 'paternal');
 
@@ -217,7 +217,7 @@ class TreeService
 
                 DB::table('module_privacy')->insert([
                     'module_name' => $module->name(),
-                    'gedcom_id'   => $tree_id,
+                    'gedcom_id'   => $tree->id(),
                     'interface'   => $interface,
                     'access_level' => $access_level,
                 ]);
